@@ -18,7 +18,7 @@ use v3t;
     cep VARCHAR(8),
     bairro VARCHAR(50),
     senhaEmpresa VARCHAR(30) NOT NULL,
-    emailEmpresa VARCHAR(30) UNIQUE
+    emailEmpresa VARCHAR(30) UNIQUE,
     constraint chkemailEmpresa check (emailEmpresa like '%@%')
     );
     
