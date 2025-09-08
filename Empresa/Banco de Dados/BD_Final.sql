@@ -1,14 +1,7 @@
--- GRUPO 4
--- Daner Gary Mamani Quispe - RA 01252047
--- Débora Marsal Mato Rodriguez - RA 01252000
--- Gabriel Medeiros Nascimento - RA 01252035
--- Lucas Ciriaco Borba - RA 01252132
--- Matheus Pereira dos Santos - RA 01252118
+CREATE DATABASE v3t;
+USE v3t;
 
-create DATABASE v3t;
-use v3t;
-
- create table empresa(
+ CREATE TABLE empresa(
 	idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
     razaoSocial VARCHAR(60) NOT NULL,
     cnpj VARCHAR(14) UNIQUE, 
@@ -18,35 +11,55 @@ use v3t;
     cep VARCHAR(8),
     bairro VARCHAR(50),
     senhaEmpresa VARCHAR(30) NOT NULL,
-    emailEmpresa VARCHAR(30) UNIQUE,
-    constraint chkemailEmpresa check (emailEmpresa like '%@%')
+    emailEmpresa VARCHAR(30) UNIQUE
+    CONSTRAINT chkemailEmpresa CHECK (emailEmpresa LIKE '%@%')
     );
+ 
+ 
     
-create table monitoramento (
-	idRegistro int primary key auto_increment,
-	fonteProteina varchar(50),
-	dtHora datetime DEFAULT CURRENT_TIMESTAMP , 
-	Umidade decimal(3,1),
-	Temperatura decimal (5,2),
-	situação varchar (30),
-	constraint chkSituacao check(estado in('Ideal', 'Não Ideal'))
+CREATE TABLE monitoramento (
+	idRegistro INT PRIMARY KEY AUTO_INCREMENT,
+	fonteProteina VARCHAR(50),
+	dtHora DATETIME DEFAULT CURRENT_TIMESTAMP , 
+	Umidade DECIMAL(3,1),
+	Temperatura DECIMAL(5,2),
+	situacao VARCHAR(30),
+	CONSTRAINT chkSituacao CHECK(situacao IN('Ideal', 'Não Ideal'))
     );
+
+INSERT INTO monitoramento (fonteProteina, Umidade, Temperatura, situacao) VALUES
+	('Proteína de Ervilha', 55.0, 22.0, 'Ideal'),
+	('Proteína de Soja', 65.5, 26.0, 'Não Ideal'),
+	('Proteína de Grão-de-bico', 50.0, 21.5, 'Ideal'),
+	('Proteína de Arroz', 70.0, 27.0, 'Não Ideal'),
+	('Proteína de Aveia', 58.0, 23.0, 'Ideal');
+    
+SELECT * FROM monitoramento;
+    
+SELECT fonteProteina AS "Nome da Proteína",
+	CONCAT ('UR:',Umidade, ' / ', 'C°', Temperatura) AS "Umidade e Temperatura" 
+		FROM monitoramento;
+
+
 
 CREATE TABLE lote_producao(
     idLote INT AUTO_INCREMENT PRIMARY KEY,
     codigo VARCHAR(20) UNIQUE,
     descricao VARCHAR(100),
     dataInicio DATE,
-    status_lote VARCHAR(20) CHECK 
-    (status_lote IN ('em andamento','finalizado','cancelado'))
-);
+    status_lote VARCHAR(20) CHECK (status_lote IN ('em andamento','finalizado','cancelado'))
+	);
+
+
 
 CREATE TABLE alertas(
 	idAlertas INT PRIMARY KEY AUTO_INCREMENT,
-	tempMax DECIMAL(5, 2) NOT NULL,
 	tempMin DECIMAL(5, 2) NOT NULL,
+	tempMax DECIMAL(5, 2) NOT NULL,
 	tempoAlerta DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
+	);
+
+
 
 CREATE TABLE proteinas (
     id_proteina INT PRIMARY KEY AUTO_INCREMENT,
@@ -55,4 +68,4 @@ CREATE TABLE proteinas (
     temp_max_proteina DECIMAL(5,2),
     umid_min_proteina DECIMAL(5,2),
     umid_max_proteina DECIMAL(5,2)
-);
+	);
